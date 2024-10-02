@@ -1,6 +1,3 @@
-Here is the entire project formatted for a **README.md** file:
-
-```markdown
 # **Credit Card Fraud Detection: A Machine Learning Approach to Anomaly Detection and Class Imbalance Handling**
 
 ## **Overview**
