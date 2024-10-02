@@ -1,3 +1,6 @@
+Here is the entire project formatted for a **README.md** file:
+
+```markdown
 # **Credit Card Fraud Detection: A Machine Learning Approach to Anomaly Detection and Class Imbalance Handling**
 
 ## **Overview**
@@ -49,3 +52,168 @@ from sklearn.metrics import classification_report, accuracy_score, precision_sco
 
 # Libraries for handling class imbalance
 from imblearn.over_sampling import SMOTENC
+```
+
+Ensure you have installed the required libraries:
+
+```bash
+pip install pandas numpy matplotlib seaborn scikit-learn imbalanced-learn
+```
+
+## **Data Overview & Preprocessing**
+
+The dataset contains anonymized credit card transactions labeled as fraudulent or valid. After loading the data, the following steps are performed:
+
+- Handling duplicates
+- Checking for missing values
+- Feature scaling
+- Train-test split
+
+To load the dataset, download it from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and place it in your working directory.
+
+```python
+# Load dataset
+data = pd.read_csv('creditcard.csv')
+
+# Basic dataset information
+data.info()
+
+# Remove duplicates
+data.drop_duplicates(inplace=True)
+```
+
+## **Exploratory Data Analysis**
+
+Exploratory Data Analysis (EDA) is conducted to explore the relationships between features and the target variable, such as identifying the distribution of fraudulent and valid transactions and transaction amounts.
+
+```python
+# Example: Distribution of transaction amounts by class
+f, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
+f.suptitle('Transaction Amount by Class')
+
+ax1.hist(Fraud['Amount'], bins=50)
+ax1.set_title('Fraud')
+
+ax2.hist(Valid['Amount'], bins=50)
+ax2.set_title('Valid')
+
+plt.xlabel('Amount ($)')
+plt.ylabel('Number of Transactions')
+plt.yscale('log')
+plt.show()
+```
+
+## **Feature Scaling and Train-Test Split**
+
+```python
+# Separate features and target
+X = data.drop(columns=['Class'])
+y = data['Class']
+
+# Feature scaling
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, stratify=y, random_state=42)
+```
+
+## **Model Building**
+
+We will build three anomaly detection models:
+
+1. **Isolation Forest**
+2. **Local Outlier Factor (LOF)**
+3. **Support Vector Machine (SVM)**
+
+### **6.1 Isolation Forest**
+
+```python
+# Build Isolation Forest model
+isolation_forest = IsolationForest(n_estimators=100, contamination=0.00167, random_state=42)
+isolation_forest.fit(X_train)
+
+# Predict on test set
+y_pred_if = isolation_forest.predict(X_test)
+y_pred_if = np.where(y_pred_if == -1, 1, 0)  # Convert to 1 for fraud, 0 for valid
+```
+
+### **6.2 Local Outlier Factor (LOF)**
+
+```python
+# Build Local Outlier Factor (LOF) model
+lof = LocalOutlierFactor(n_neighbors=20, contamination=0.00167)
+y_pred_lof = lof.fit_predict(X_test)
+y_pred_lof = np.where(y_pred_lof == -1, 1, 0)  # Convert to 1 for fraud, 0 for valid
+```
+
+### **6.3 Support Vector Machine (SVM)**
+
+```python
+# Build One-Class SVM model
+svm_model = OneClassSVM(nu=0.00167, kernel='rbf', gamma='auto')
+svm_model.fit(X_train)
+
+# Predict on test set
+y_pred_svm = svm_model.predict(X_test)
+y_pred_svm = np.where(y_pred_svm == -1, 1, 0)  # Convert to 1 for fraud, 0 for valid
+```
+
+## **Model Evaluation**
+
+The models are evaluated using accuracy, precision, recall, and F1 score.
+
+```python
+# Function to evaluate model performance
+def evaluate_model(y_true, y_pred, model_name):
+    print(f"--- {model_name} ---")
+    print(f"Accuracy: {accuracy_score(y_true, y_pred):.4f}")
+    print(f"Precision: {precision_score(y_true, y_pred):.4f}")
+    print(f"Recall: {recall_score(y_true, y_pred):.4f}")
+    print(f"F1 Score: {f1_score(y_true, y_pred):.4f}")
+    print(classification_report(y_true, y_pred))
+
+# Example: Evaluate Isolation Forest
+evaluate_model(y_test, y_pred_if, "Isolation Forest")
+```
+
+### **7.1 Isolation Forest**
+
+- **Accuracy**: 99.72%
+- **Precision**: 18.37%
+- **Recall**: 18.95%
+- **F1 Score**: 18.65%
+
+### **7.2 Local Outlier Factor (LOF)**
+
+- **Accuracy**: 99.67%
+- **Precision**: 0.00%
+- **Recall**: 0.00%
+- **F1 Score**: 0.00%
+
+### **7.3 Support Vector Machine (SVM)**
+
+- **Accuracy**: 98.84%
+- **Precision**: 7.00%
+- **Recall**: 48.42%
+- **F1 Score**: 12.23%
+
+## **Conclusion and Recommendations**
+
+### **8.1 Conclusions**
+
+1. **Isolation Forest** and **LOF** models suffer from class imbalance and fail to accurately detect fraud.
+2. **SVM** performs better but still generates too many false positives.
+
+### **8.2 Recommendations**
+
+1. **Hyperparameter tuning** for the models to improve performance.
+2. **Class imbalance handling** with techniques like SMOTE.
+3. **Ensemble learning** to combine models.
+4. **Feature engineering** with additional contextual data.
+
+---
+
+## **Dataset**
+
+The dataset used in this project can be downloaded from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud). Once downloaded, upload the dataset to your working environment to run the code.
