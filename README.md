@@ -214,3 +214,9 @@ evaluate_model(y_test, y_pred_if, "Isolation Forest")
 ## **Dataset**
 
 The dataset used in this project can be downloaded from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud). Once downloaded, upload the dataset to your working environment to run the code.
+Source: Available on Kaggle, this dataset contains credit card transactions made by European cardholders in September 2013. It has 284,807 transactions with only 492 fraud cases, making it ideal for anomaly detection since fraud is rare.
+Features:
+Time: Seconds elapsed between this transaction and the first transaction in the dataset.
+V1 to V28: The result of a PCA transformation (Principal Component Analysis) applied to protect the identities of the users.
+Amount: The transaction amount.
+Class: The label for fraud detection. 1 represents a fraud, and 0 represents a normal transaction.
