@@ -1,4 +1,5 @@
 # **Credit Card Fraud Detection: A Machine Learning Approach to Anomaly Detection and Class Imbalance Handling**
+![](https://th.bing.com/th/id/R.2df7a2d83918b6371b29a9108d2167db?rik=fCuwBC5jHr2aww&riu=http%3a%2f%2fuponarriving.com%2fwp-content%2fuploads%2f2016%2f10%2fALL-CARDS.jpg&ehk=zqO%2bQduRuTivTE4PY0dTPnjAu8TY6eJjmyGJPJade9M%3d&risl=&pid=ImgRaw&r=0)
 
 ## **Overview**
 
